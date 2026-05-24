@@ -1,0 +1,2 @@
+"""SQLite metadata repository."""
+

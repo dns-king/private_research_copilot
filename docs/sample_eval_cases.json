@@ -1,0 +1,13 @@
+[
+  {
+    "question": "What are the major topics covered by the indexed documents?",
+    "expected_answer": "major topics covered by the indexed documents",
+    "expected_sources": []
+  },
+  {
+    "question": "Summarize the strongest evidence from the sources.",
+    "expected_answer": "evidence from the sources",
+    "expected_sources": []
+  }
+]
+

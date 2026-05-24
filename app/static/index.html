@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Private Research Copilot</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">PRC</span>
+          <div>
+            <strong>Private Research Copilot</strong>
+            <small>Local Ollama RAG</small>
+          </div>
+        </div>
+        <nav class="tabs" aria-label="Primary">
+          <button class="tab active" data-tab="chat">Chat</button>
+          <button class="tab" data-tab="ingestion">Ingestion</button>
+          <button class="tab" data-tab="evaluation">Evaluation</button>
+          <button class="tab" data-tab="performance">Performance</button>
+        </nav>
+        <div class="status-panel">
+          <span id="healthDot" class="dot"></span>
+          <span id="healthText">Checking runtime</span>
+        </div>
+      </aside>
+
+      <main>
+        <section id="chat" class="view active">
+          <header class="view-header">
+            <div>
+              <h1>Grounded Chat</h1>
+            </div>
+            <div class="controls compact">
+              <label>
+                Model
+                <select id="modelSelect"></select>
+              </label>
+              <label>
+                Top K
+                <input id="topK" type="number" value="6" min="1" max="50" />
+              </label>
+              <label>
+                Hybrid
+                <input id="hybridAlpha" type="range" value="0.62" min="0" max="1" step="0.01" />
+              </label>
+            </div>
+          </header>
+          <div class="chat-layout">
+            <section class="chat-window" id="chatWindow"></section>
+            <aside class="sources-panel">
+              <h2>Sources</h2>
+              <div id="sourcesList" class="sources-list"></div>
+            </aside>
+          </div>
+          <form id="chatForm" class="composer">
+            <textarea id="chatInput" rows="3" placeholder="Ask a research question"></textarea>
+            <button type="submit">Send</button>
+          </form>
+        </section>
+
+        <section id="ingestion" class="view">
+          <header class="view-header">
+            <div>
+              <h1>Ingestion</h1>
+            </div>
+          </header>
+          <div class="grid two">
+            <section class="panel">
+              <h2>Upload</h2>
+              <form id="uploadForm" class="stack">
+                <input id="fileInput" type="file" />
+                <button type="submit">Upload and Index</button>
+              </form>
+            </section>
+            <section class="panel">
+              <h2>Local Path</h2>
+              <form id="pathForm" class="stack">
+                <input id="pathInput" type="text" placeholder="C:\path\to\documents" />
+                <div class="row">
+                  <label>Chunk Size <input id="chunkSize" type="number" value="900" min="200" max="4000" /></label>
+                  <label>Overlap <input id="chunkOverlap" type="number" value="160" min="0" max="1000" /></label>
+                </div>
+                <div class="row">
+                  <label>Strategy
+                    <select id="chunkStrategy">
+                      <option value="recursive">Recursive</option>
+                      <option value="sentence">Sentence</option>
+                      <option value="token">Token</option>
+                    </select>
+                  </label>
+                  <label>Embedding <input id="embeddingModel" type="text" value="nomic-embed-text" /></label>
+                </div>
+                <label class="check"><input id="recursive" type="checkbox" checked /> Recursive</label>
+                <button type="submit">Queue Ingestion</button>
+              </form>
+            </section>
+          </div>
+          <section class="panel">
+            <h2>Jobs</h2>
+            <div id="jobsTable" class="table"></div>
+          </section>
+          <section class="panel">
+            <h2>Documents</h2>
+            <div id="documentsTable" class="table"></div>
+          </section>
+        </section>
+
+        <section id="evaluation" class="view">
+          <header class="view-header">
+            <div>
+              <h1>Evaluation</h1>
+            </div>
+          </header>
+          <section class="panel">
+            <h2>Benchmark Cases</h2>
+            <form id="evalForm" class="stack">
+              <input id="evalName" type="text" value="local-rag-eval" />
+              <textarea id="evalCases" rows="9">[
+  {
+    "question": "What are the main claims in the indexed documents?",
+    "expected_answer": "main claims",
+    "expected_sources": []
+  }
+]</textarea>
+              <button type="submit">Run Evaluation</button>
+            </form>
+          </section>
+          <section class="panel">
+            <h2>Reports</h2>
+            <div id="reportsTable" class="table"></div>
+          </section>
+        </section>
+
+        <section id="performance" class="view">
+          <header class="view-header">
+            <div>
+              <h1>Performance</h1>
+            </div>
+            <button id="refreshMetrics">Refresh</button>
+          </header>
+          <section class="metrics-grid" id="metricsGrid"></section>
+        </section>
+      </main>
+    </div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
