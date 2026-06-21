@@ -1,3 +1,7 @@
+![alt text](RC_UI.jpeg)
+
+![alt text](RC_UI(1).jpeg)
+
 # Private Research Copilot
 
 Private Research Copilot is a fully local Retrieval-Augmented Generation platform for private document research. It uses Ollama for local models, Qdrant for vector search, SQLite for metadata and BM25, and FastAPI for the API and dashboard.

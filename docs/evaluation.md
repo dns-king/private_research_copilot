@@ -36,4 +36,3 @@ Recommended retrieval experiments:
 - `top_k`: 4, 6, 10
 
 Keep the corpus and questions fixed for each run and compare aggregate relevance, source precision, latency, and memory.
-
