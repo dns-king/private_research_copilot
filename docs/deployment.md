@@ -28,12 +28,19 @@ ollama pull nomic-embed-text
 
 ## Docker Compose
 
+Run these commands from the repository root. The Compose file uses the published app image; it does not build the app locally.
+
 ```bash
 copy .env.example .env
-docker compose up --build
+docker compose pull
+docker compose up -d
+docker compose exec ollama ollama pull llama3
+docker compose exec ollama ollama pull nomic-embed-text
 ```
 
-The dashboard is available at `http://127.0.0.1:8000`.
+The dashboard is available at `http://127.0.0.1:8000`. The default chat and embedding models must be downloaded into Ollama before chat or document ingestion will work. Other selectable chat models configured in `.env` must also be pulled before use.
+
+Use `docker compose logs -f app` to inspect app logs and `docker compose down` to stop the stack. App data is stored under `data/`; Qdrant vectors and Ollama models are kept in named Docker volumes.
 
 ## Offline Operation
 

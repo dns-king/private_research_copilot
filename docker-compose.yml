@@ -1,6 +1,6 @@
 services:
   app:
-    build: .
+    image: dennisking/private-research-copilot:latest
     container_name: private-research-copilot
     env_file:
       - .env
@@ -11,7 +11,6 @@ services:
       - "8000:8000"
     volumes:
       - ./data:/app/data
-      - ./docs:/app/docs:ro
     depends_on:
       - qdrant
       - ollama

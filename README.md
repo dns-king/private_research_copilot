@@ -42,14 +42,21 @@ ollama pull phi3
 ollama pull nomic-embed-text
 ```
 
-## Docker
+## Docker Hub Deployment
+
+From a checkout of this repository, in the repository root:
 
 ```powershell
 copy .env.example .env
-docker compose up --build
+docker compose pull
+docker compose up -d
+docker compose exec ollama ollama pull llama3
+docker compose exec ollama ollama pull nomic-embed-text
 ```
 
-The app runs at `http://127.0.0.1:8000`, Qdrant at `http://127.0.0.1:6333`, and Ollama at `http://127.0.0.1:11434`.
+Compose pulls the published app image and starts it with Qdrant and Ollama. The first model downloads can take several minutes. `llama3` is the default chat model and `nomic-embed-text` is the default embedding model; pull any other chat models listed in `.env` before selecting them in the app.
+
+Open `http://127.0.0.1:8000`. To inspect startup logs, run `docker compose logs -f app`; stop the stack with `docker compose down`. Documents and database files persist under `data/`, while Qdrant vectors and Ollama models persist in named Docker volumes.
 
 ## API
 
@@ -64,7 +71,7 @@ The app runs at `http://127.0.0.1:8000`, Qdrant at `http://127.0.0.1:6333`, and 
 
 ## Architecture
 
-See [docs/architecture.md](docs/architecture.md).
+Start with the [repository overview](docs/repo-overview.md) for a project map, or see the [architecture](docs/architecture.md) for the component diagram and extension points.
 
 ## Evaluation
 
@@ -77,4 +84,3 @@ python scripts/benchmark.py --cases docs/sample_eval_cases.json --out data/expor
 ## Offline Guarantee
 
 The runtime uses only local services. No OpenAI APIs or cloud inference are used. after Docker images and Ollama model weights are available on the machine, the platform can run without network access...
-
